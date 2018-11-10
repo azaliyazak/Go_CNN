@@ -1,2 +1,2 @@
 # Darin
-Darin (deep and reinforced intelligence net) проектная деятельность 
+Darin (deep and reinforced intelligence net) project work.
