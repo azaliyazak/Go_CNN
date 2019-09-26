@@ -78,8 +78,8 @@ def correcting_data(board_state):
 
     # check diagonal lines from top-left to bottom-right /
     if not correct_game:
-        for i in range(size - 1 - 4):  ##
-            for j in range(4, size - 1):  ##
+        for i in range(size - 1 - 4):
+            for j in range(4, size - 1):
                 if board_state[i][j][color_to_dig['white']] == 1 and board_state[i + 1][j - 1][color_to_dig['white']] == \
                         1 and board_state[i + 2][j - 2][color_to_dig['white']] == 1 and board_state[i + 3][j - 3][
                     color_to_dig['white']] \
@@ -89,8 +89,8 @@ def correcting_data(board_state):
 
     # check diagonal lines from top-right to bottom-left \
     if not correct_game:
-        for i in range(size - 1 - 4):  ##
-            for j in range(size - 1 - 4):  ##
+        for i in range(size - 1 - 4):
+            for j in range(size - 1 - 4):
                 if board_state[i][j][color_to_dig['white']] == 1 and board_state[i + 1][j + 1][
                     color_to_dig['white']] == 1 \
                         and board_state[i + 2][j + 2][color_to_dig['white']] == 1 and board_state[i + 3][j + 3][
@@ -125,7 +125,6 @@ def correcting_data(board_state):
                     correct_game = True
                     winner = 'black'
 
-    # print('game #', 'res:', correct_game)
     return correct_game, winner
 
 file = open('train_full.renju', 'r+')
@@ -169,5 +168,4 @@ for line in lines:
         corrected_data.write(winner + ' ' + str1 + '\n')
 
 corrected_data.close()
-
-# --------данные теперь оьбработаны и верны-----------------
+# --------данные теперь обработаны и верны-----------------
