@@ -1,7 +1,6 @@
 from const import *
 import numpy as np
 
-
 def correcting_data(board_state):
     winner = ''
     correct_game = False
@@ -124,7 +123,6 @@ def correcting_data(board_state):
                         == -1 and board_state[i + 4][j + 4][color_to_dig['black']] == -1:
                     correct_game = True
                     winner = 'black'
-
     return correct_game, winner
 
 file = open('train_full.renju', 'r+')
@@ -153,11 +151,7 @@ for line in lines:
         board_state[move[0]][move[1]][color_to_dig['white']] = 1
     for i in range(2, len(line_splited), 2):
         move = info_to_move(line_splited[i])  # for black
-        # print(move)
         board_state[move[0]][move[1]][color_to_dig['black']] = -1
-        # print(board_state[:,:,color_to_dig['black']])
-        # print(dig_to_let[move[1] + 1], move[0] + 1)
-        # print()
 
     is_game_finished, winner = correcting_data(board_state)
 
@@ -168,4 +162,5 @@ for line in lines:
         corrected_data.write(winner + ' ' + str1 + '\n')
 
 corrected_data.close()
+
 # --------данные теперь обработаны и верны-----------------
