@@ -16,6 +16,5 @@ def info_to_move(str_move):
     move = (x, y)
     return move
 
-
 def move2d_to_1d(move):
-    return (move[0]+1) * 15 + move[1]
+    return move[0] * 15 + move[1]
