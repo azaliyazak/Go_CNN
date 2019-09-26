@@ -6,6 +6,7 @@ dig_to_let = {1: 'a', 2: 'b', 3: 'c', 4: 'd', 5: 'e', 6: 'f', 7: 'g', 8: 'h',
 
 color_to_dig = {'white': 0, 'black': 1} # layers
 
+# Tensor
 size = 16
 deepth = 3
 
