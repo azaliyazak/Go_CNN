@@ -7,7 +7,7 @@ from const import *
 
 PATH = "model/model.pth"
 
-print("WRITE YOUR PLAY COLOUR: ")
+print("PLEASE, WRITE YOUR PLAY COLOUR: ")
 
 while True:
     computer_color = input()
@@ -18,13 +18,17 @@ while True:
         computer_color = -1
         break
     else:
-        print("WRITE BLACK OR WHITE:")
+        print("PLEASE,WRITE ONLY BLACK OR WHITE:")
 
 
 def show_board(white, black):
+    print("    " + "1  " + "2  " + "3  " + "4  " + "5  " + "6  " + "7  " + "8  " + "9  " + "10 " + "11 " + "12 " + "13 " + "14 " + "15 ")
+    print("    " + "---------------------------------------------")
+    print()
     for i in range(15):
         s = ""
         for j in range(15):
+
             if black[i][j] == -1:
                 s += "-1 "
                 continue
@@ -33,7 +37,7 @@ def show_board(white, black):
                 continue
             else:
                 s += "0  "
-        print(s + "\n")
+        print(dig_to_let[i + 1] + "|   " + s + "\n")
 
 
 def check_win(array):
@@ -91,55 +95,62 @@ def main():
         show_board(white, black)
     while True:
         opponents_move = input()
-        if computer_color == 1:
-            if black[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] == 0 and \
-                    white[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] == 0:
-                black[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] = -1
+        if (opponents_move.lower() == "finish"):
+            print("THE GAME WAS OVER YOU PREMATURELY")
+            return 0
+        if ('a' <= opponents_move[0] <= 'p') and (opponents_move[0] != 'i') and (1 <= int(opponents_move[1:]) <= 15):
+            if computer_color == 1:
+                if black[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] == 0 and \
+                        white[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] == 0:
+                    black[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] = -1
+                else:
+                    print("CELL IS BUSY")
+                    while black[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] != 0 or \
+                            white[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] != 0:
+                        opponents_move = input()
+                        if black[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] == 0 and \
+                                white[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] == 0:
+                            black[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] = -1
+                            break
+                        else:
+                            print("CELL IS BUSY")
+                if check_win(black) == 1:
+                    print('opponent(human) is winner!')
+                    return 0
             else:
-                print("CELL IS BUSY")
-                while black[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] != 0 or \
-                        white[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] != 0:
-                    opponents_move = input()
-                    if black[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] == 0 and \
-                            white[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] == 0:
-                        black[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] = -1
-                        break
-                    else:
-                        print("CELL IS BUSY")
-            if check_win(black) == 1:
-                print('opponent is winner!')
-                return 0
-        else:
-            if white[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] == 0 and \
-                    black[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] == 0:
-                white[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] = 1
+                if white[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] == 0 and \
+                        black[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] == 0:
+                    white[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] = 1
+                else:
+                    print("CELL IS BUSY")
+                    while white[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] != 0 or \
+                            black[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] != 0:
+                        opponents_move = input()
+                        if white[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] == 0 and \
+                                black[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] == 0:
+                            white[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] = 1
+                            break
+                        else:
+                            print("CELL IS BUSY")
+                if check_win(white) == 1:
+                    print('opponent(human) is winner!')
+                    return 0
+
+            move = predict(model, [white, black, [[computer_color] * 16] * 16])
+            print(move)
+            if computer_color == 1:
+                white[let_to_dig[move[0]] - 1][int(move[1:]) - 1] = 1
+                if check_win(white) == 1:
+                    print('computer is winner!')
+                    return 1
             else:
-                print("CELL IS BUSY")
-                while white[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] != 0 or \
-                        black[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] != 0:
-                    opponents_move = input()
-                    if white[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] == 0 and \
-                            black[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] == 0:
-                        white[let_to_dig[opponents_move[0]] - 1][int(opponents_move[1:]) - 1] = 1
-                        break
-                    else:
-                        print("CELL IS BUSY")
-            if check_win(white) == 1:
-                print('opponent is winner!')
-                return 0
-        move = predict(model, [white, black, [[computer_color] * 16] * 16])
-        print(move)
-        if computer_color == 1:
-            white[let_to_dig[move[0]] - 1][int(move[1:]) - 1] = 1
-            if check_win(white) == 1:
-                print('computer is winner!')
-                return 1
+                black[let_to_dig[move[0]] - 1][int(move[1:]) - 1] = -1
+                if check_win(black) == 1:
+                    print('computer is winner!')
+                    return 1
+            show_board(white, black)
         else:
-            black[let_to_dig[move[0]] - 1][int(move[1:]) - 1] = -1
-            if check_win(black) == 1:
-                print('computer is winner!')
-                return 1
-        show_board(white, black)
+            print("PLEASE, WRITE CORRECT MOVE")
 
 
 main()
