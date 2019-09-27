@@ -3,7 +3,6 @@ import time
 import torch
 import numpy as np
 
-#  на кагле не забыть импорты скопировать
 from const import *
 from model.model import GOCNN
 
