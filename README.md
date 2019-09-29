@@ -1,4 +1,4 @@
-# Darin
+# Go_CNN Darin
 Darin (deep and reinforced intelligence net) project work.
 
 
