@@ -3,7 +3,7 @@ import numpy as np
 from model.model import predict, GOCNN, decode
 from const import *
 
-PATH = "model/model_2.pth"
+PATH = "model/model_3.pth"
 
 print("PLEASE, WRITE YOUR PLAY COLOUR: ")
 
